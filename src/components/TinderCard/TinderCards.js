@@ -6,20 +6,14 @@ import database from "../../firebase";
 import "./tinder_card.css";
 
 const TinderCards = () => {
-  const [people, setPeople] = useState([
-    {
-      name: "Sakura",
-      url:
-        "https://vignette.wikia.nocookie.net/naruto/images/6/64/Sakura_Part_1.png/revision/latest/scale-to-width-down/340?cb=20170726101444",
-    },
-    {
-      name: "Hinata",
-      url:
-        "https://vignette.wikia.nocookie.net/naruto/images/7/79/Hinata_Part_II.png/revision/latest?cb=20160916060747",
-    },
-  ]);
-
-  useEffect(() => {}, [people]);
+  const [people, setPeople] = useState([]);
+  useEffect(() => {
+    database
+      .collection("people")
+      .onSnapshot((snapshot) =>
+        setPeople(snapshot.docs.map((doc) => doc.data()))
+      );
+  }, []);
 
   return (
     <div>
